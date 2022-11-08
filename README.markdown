@@ -1,7 +1,9 @@
+*Credits to Kyuhyeow*
+
 What is Git ?
 =============
 
-Git is a *distributed* **version control** system [1]
+Git is a *distributed* **version control** system originally created in 2006 by Linus Torvalds after the BitKeeper version control system got commercialized [1]
 
 [1] <a href="http://git-scm.com/about">http://git-scm.com/about</a>
 
@@ -14,117 +16,42 @@ Some house-cleaning here. We assume of course you have Git installed,
 If you don't you can install it from downloads on the git homepage or you can
 install [Github's git GUI](https://help.github.com/articles/set-up-git/).
 
-Setup
------
+Starting your journey from the basics
+-------------------------------------
 
-First thing to do is to setup your identity. This identifies you to
-other people who download the project.
+First, init the empty repository with this repository:
 
-    $ git config --global user.name "Your Name"
-    $ git config --global user.email your.email@example.com
+    $ git init
 
-As a helpful step, you may want to set Git to use your favourite editor
+This command will initialize an empty git repo on your machine. This repo won't contain for now any kind of origin to your remote repo.
+Now, let us assume we have some changes in our local repo. How to list it, so we know which changes we are committing to the remote repo? Simply, by using the status command, precisely:
 
-    $ git config --global core.editor emacs
+    $ git status
 
-Starting your journey
----------------------
+Then, we want to prepare for our commit. To achieve it, we use the following command:
+    
+    $ git add .
 
-First, clone this repository:
+This will add all of the changes to our project to the history of our local repo and therefore will prepare it for the commit.
 
-    $ git clone https://github.com/kuahyeow/git-workshop.git
+**What is a commit?**
 
-You may want to fork (create your own copy of) the project on github and
-clone from your own repo. You can find the fork button at the top right of
-the screen on a github repository, or more help about doing that [here](https://help.github.com/articles/fork-a-repo/).
+    Basically, a commit is a pointer to changes that appeared in the repo.
+   
+Back to the topic, to place our changes in our remote repo, we need to do
 
-Once you have cloned your repository, you should now see a directory
-called `git-workshop`. This is your `working directory`
+    $ git commit -m "<commit message>"
+    
+The commit message should describe the changes in the local repo that we are pushing to the remote one.
 
-    $ cd git-workshop
-    $ ls
+After that, we generally can try to execute the push command, but before that, we have to know that the git knows where to push.
+To obtain that, we can use the following command:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Help-browser.svg/20px-Help-browser.svg.png)
-Stuck? Ask for help from the workshop staff
+    $ git remote add origin <github_repo_address>
+    
+After that, we can successfully push our code to our remote repo by executing
 
-For the curious, you should also see the `.git` subdirectory. This is
-where all your repository’s data and history is kept.
-
-    $ ls -a .git
-
-You will see :
-
-    branches  config  description  HEAD  hooks  info  objects  refs
-
-The staging area
-----------------
-
-Now, let’s try adding some files into the project. Create a couple of
-files.
-
-Let’s create two files named `bob.txt` and `alice.txt`.
-
-    $ touch alice.txt bob.txt
-
-Let’s use a mail analogy.
-
-In Git, you first add content to the `staging area` by using `git add`.
-This is like putting the stuff you want to send into a cardboard box.
-You finalize the process and record it into the git index by using
-`git commit`. This is like sealing the box - it’s now ready to send.
-
-Let’s add the files to the staging area
-
-    $ git add alice.txt bob.txt
-
-Committing
-----------
-
-You are now ready to commit. The `-m` flag allows you to enter a message
-to go with the commit at the same time.
-
-    $ git commit -m "I am adding two new files"
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Help-browser.svg/20px-Help-browser.svg.png)
-Stuck? Ask for help from the workshop staff
-
-Let’s see what just happened
-----------------------------
-
-We should now have a new commit. To see all the commits so far, use
-`git log`
-
-    $ git log
-
-The log should show all commits listed from most recent first to least
-recent. You would see various information like the name of the author,
-the date it was commited, a commit SHA number, and the message for the
-commit.
-
-You should also see your most recent commit, where you added the two new
-files in the previous section. However git log does not show the files
-involved in each commit. To view more information about a commit, use
-`git show`.
-
-    $ git show
-
-You should see something similar to:
-
-    commit 5a1fad96c8584b2c194c229de7e112e4c84e5089
-    Author: kuahyeow 
-    Date:   Sun Jul 17 19:13:42 2011 +1200
-
-        I am adding two new files
-
-    diff --git a/alice.txt b/alice.txt
-    new file mode 100644
-    index 0000000..e69de29
-    diff --git a/bob.txt b/bob.txt
-    new file mode 100644
-    index 0000000..e69de29
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Help-browser.svg/20px-Help-browser.svg.png)
-Stuck? Ask for help from the workshop staff
+    $ git push origin <branch_name>
 
 A necessary digression
 ----------------------
